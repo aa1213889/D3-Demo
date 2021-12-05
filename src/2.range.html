@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <title>比例尺</title>
+</head>
+
+<body>
+    <script>
+        const svgWidth = 300,
+            height = 300
+
+        //1.创建svg
+        const svg = d3.select('body').append('svg').attr('width', svgWidth).attr('height', height)
+
+        //2.渲染元素
+        const arr = [21, 19, 16, 13, 11, 5]
+        const rectHeight = 20
+        const rectGap = 5
+        const max = d3.max(arr) //查找数组中的极大值 arr中为21 则max = 21
+        const linear = d3.scaleLinear()
+            .domain([0, max]) //定义域 为0~21
+            .range([0, svgWidth]) //值域 为0~300
+
+        svg.selectAll('rect').data(arr).enter()
+            .append('rect')
+            .attr('x', 0)
+            .attr('y', (val, index) => {
+                return index * (rectHeight + rectGap)
+            })
+            .attr('width', val => linear(val)) //计算svgWidth的比例
+            .attr('height', rectHeight)
+            .attr('fill', () => "hsl(" + Math.random() * 360 + ",100%,50%)")
+    </script>
+</body>
+
+</html>

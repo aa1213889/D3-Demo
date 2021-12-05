@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <title>比例尺</title>
+</head>
+
+<body>
+    <script>
+        const svgWidth = 400,
+            height = 400
+
+        //1.创建svg
+        const svg = d3.select('body').append('svg').attr('width', svgWidth).attr('height', height)
+
+        //2.定义数据
+        const arr = [10, 15, 20, 25, 30]
+
+
+        const xScale = d3.scaleLinear()
+            .domain([0, d3.max(arr)]) //定义域 为0~30
+            .range([0, svgWidth - 100]) //值域 为0~300
+
+        const yScale = d3.scaleLinear()
+            .domain([0, d3.max(arr)]) //定义域 为0~30
+            .range([height / 2, 0]) //值域 为50 ~ 0
+
+        //3.创建横向底部的x,y轴，并添比例尺
+        const yAxis = d3.axisLeft().scale(yScale)
+        const xAxis = d3.axisBottom().scale(xScale)
+
+        //4.将组的元素插入x,y轴坐标
+        svg.append('g')
+            .attr('transform', 'translate(50,10)')
+            .call(yAxis)
+        svg.append('g')
+            .attr('transform', `translate(50,${height / 2 + 10})`)
+            .call(xAxis)
+    </script>
+</body>
+
+</html>
